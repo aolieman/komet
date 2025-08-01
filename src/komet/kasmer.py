@@ -510,6 +510,9 @@ class KometFuzzHandler(KFuzzHandler):
         # Hypothesis reruns failing examples to confirm the failure.
         # To avoid misleading progress updates, the progress bar is not advanced
         # when a test fails and Hypothesis reruns the same example.
+        sorted_keys = sorted(args.keys(), key=lambda k: k.name)
+        sample = tuple(self.definition.krun.kore_to_kast(args[k]) for k in sorted_keys)
+        print(', '.join(self.definition.krun.pretty_print(a) for a in sample))
         if not self.failed:
             self.task.advance()
 
